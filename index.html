@@ -711,10 +711,76 @@ footer a:hover i {
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 3px; }
 
+     #lamp-toggle { display: none; }
+
+    #lamp-overlay {
+      position: fixed; inset: 0; z-index: 99999;
+      background: #060811;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 1s ease 0.5s, visibility 0s linear 1.5s;
+      opacity: 1; visibility: visible;
+    }
+    #lamp-toggle:checked ~ #lamp-overlay { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .lamp-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; }
+    .ceiling-wire { width: 3px; height: 80px; background: linear-gradient(to bottom, #555, #888); border-radius: 2px; }
+
+    .lamp-shade { width: 0; height: 0; border-left: 55px solid transparent; border-right: 55px solid transparent; border-top: 90px solid #2a2a3a; position: relative; transition: filter 0.6s ease, border-top-color 0.6s ease; }
+    .lamp-shade::after { content: ''; position: absolute; top: -90px; left: -40px; width: 80px; height: 12px; background: #3a3a4a; border-radius: 4px 4px 0 0; transition: background 0.6s ease; }
+
+    .lamp-bulb { width: 20px; height: 24px; background: #333; border-radius: 50% 50% 40% 40%; position: relative; top: -4px; margin-top: -8px; transition: background 0.5s ease, box-shadow 0.5s ease; }
+    .lamp-neck { width: 6px; height: 50px; background: linear-gradient(to bottom, #444, #666); border-radius: 3px; position: relative; top: -2px; }
+    .lamp-base-foot { width: 80px; height: 14px; background: linear-gradient(to bottom, #555, #333); border-radius: 40px; position: relative; top: -2px; }
+
+    .cord-label { position: absolute; right: -36px; top: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; user-select: none; }
+    .cord { width: 2px; height: 60px; background: linear-gradient(to bottom, #888, #aaa); border-radius: 1px; transition: height 0.15s ease; display: block; }
+    .cord-ball { width: 14px; height: 14px; background: radial-gradient(circle at 35% 35%, #ddd, #888); border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-top: 2px; transition: transform 0.15s ease; display: block; }
+    .cord-label:hover  .cord-ball { transform: translateY(4px); }
+    .cord-label:hover  .cord      { height: 70px; }
+    .cord-label:active .cord-ball { transform: translateY(12px); }
+    .cord-label:active .cord      { height: 80px; }
+
+    .lamp-hint { margin-top: 44px; color: #3a3a5a; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; font-family: 'DM Sans', sans-serif; animation: lamp-hint-pulse 2.2s ease-in-out infinite; }
+    @keyframes lamp-hint-pulse { 0%,100% { opacity: 0.2; } 50% { opacity: 0.75; } }
+
+    .lamp-name-flash { position: absolute; bottom: 20%; left: 50%; transform: translateX(-50%); font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 4rem); color: #fff; letter-spacing: 4px; opacity: 0; white-space: nowrap; pointer-events: none; transition: opacity 0.6s ease; }
+    .lamp-name-flash span { color: #00f5d4; }
+
+    .light-cone { position: absolute; top: calc(50% - 100px); left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 0px solid transparent; border-right: 0px solid transparent; border-top: 0px solid rgba(245,200,66,0); transition: border-left-width 0.7s ease, border-right-width 0.7s ease, border-top-width 0.7s ease, border-top-color 0.7s ease; pointer-events: none; }
+
+    #lamp-toggle:checked ~ #lamp-overlay .lamp-shade      { border-top-color: #3a3a5a; filter: drop-shadow(0 8px 28px rgba(0,245,212,0.6)); }
+    #lamp-toggle:checked ~ #lamp-overlay .lamp-shade::after { background: #4a4a6a; }
+    #lamp-toggle:checked ~ #lamp-overlay .lamp-bulb       { background: #fffbe0; box-shadow: 0 0 20px 10px rgba(255,240,150,0.85), 0 0 55px 18px rgba(255,220,80,0.4); }
+    #lamp-toggle:checked ~ #lamp-overlay .light-cone      { border-left: 170px solid transparent; border-right: 170px solid transparent; border-top: 340px solid rgba(245,200,66,0.07); }
+    #lamp-toggle:checked ~ #lamp-overlay .lamp-name-flash { opacity: 1; transition: opacity 0.6s ease 0.4s; }
+    #lamp-toggle:checked ~ #lamp-overlay .lamp-hint       { opacity: 0; transition: opacity 0.3s ease; animation: none; }
+
+
   </style>
 </head>
 <body>
 <body>
+
+   <input type="checkbox" id="lamp-toggle">
+  <div id="lamp-overlay">
+    <div class="light-cone"></div>
+    <div class="lamp-wrapper">
+      <div class="ceiling-wire"></div>
+      <div style="position:relative;">
+        <div class="lamp-shade"></div>
+        <label class="cord-label" for="lamp-toggle" title="Tirez le fil !">
+          <span class="cord"></span>
+          <span class="cord-ball"></span>
+        </label>
+      </div>
+      <div class="lamp-bulb"></div>
+      <div class="lamp-neck"></div>
+      <div class="lamp-base-foot"></div>
+    </div>
+    <p class="lamp-hint">↑ tirez le fil</p>
+    <div class="lamp-name-flash"><span>Itokiana</span></div>
+  </div>
+
   <div class="tech-bg"></div>
 
   <div class="content">
@@ -908,7 +974,6 @@ footer a:hover i {
         <span class="tag">CSS3</span>
         <span class="tag">JavaScript</span>
       </div>
-      <div class="skill-more">Voir d'avantage →</div>
     </div>
 
     <div class="skill-card reveal">
@@ -919,7 +984,6 @@ footer a:hover i {
         <span class="tag">Vercel</span>
         <span class="tag">VsCode</span>
       </div>
-      <div class="skill-more">Voir d'avantage →</div>
     </div>
 
     <div class="skill-card reveal">
@@ -930,7 +994,6 @@ footer a:hover i {
         <span class="tag"><span class="fi fi-fr"></span> Français</span>
         <span class="tag"><span class="fi fi-gb"></span> Anglais</span>
       </div>
-      <div class="skill-more">Voir d'avantage →</div>
     </div>
   </div> </section>
 
